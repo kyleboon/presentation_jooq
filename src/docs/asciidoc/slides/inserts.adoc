@@ -1,0 +1,16 @@
+== Inserts and Updates
+
+[source,java]
+----
+Record<?> record =
+	create.insertInto(DRINK, DRINK.NAME)
+                                .values("Kyle's Beer")
+                                .returning(DRINK.ID)
+                                .fetchOne()
+
+create.update(DRINK)
+      .set(DRINK.NAME, "Kyle's New Name")
+      .where(DRINK.NAME.equal(Kyle's Beer))
+      .execute();                         
+----
+

@@ -1,0 +1,11 @@
+== Code Generation
+
+* tables 
+* records 
+* POJOs 
+* Interfaces 
+* DAOs 
+* sequences 
+* procedures 
+* UDTs
+

@@ -1,0 +1,42 @@
+= Introduction to JOOQ
+Embrace SQL again
+Kyle Boon <kyle.f.boon@gmail.com>
+
+:imagesdir: images
+:sourcedir: snippets
+
+include::slides/me.adoc[]
+include::slides/basics.adoc[]
+include::slides/basics2.adoc[]
+include::slides/supported_databases.adoc[]
+include::slides/supported_databases_2.adoc[]
+include::slides/who.adoc[]
+
+include::slides/select_part1.adoc[]
+include::slides/select_part2.adoc[]
+include::slides/select_part3.adoc[]
+
+include::slides/join_part1.adoc[]
+include::slides/join_part2.adoc[]
+
+include::slides/counts.adoc[]
+
+include::slides/inserts.adoc[]
+include::slides/delete.adoc[]
+
+include::slides/active_record.adoc[]
+
+include::slides/import_export.adoc[]
+
+include::slides/more.adoc[]
+
+include::slides/code_generation.adoc[]
+include::slides/code_gen_example.adoc[]
+include::slides/gradle.adoc[]
+
+include::slides/advantages_over_jdbc.adoc[]
+include::slides/advantages_over_hibernate.adoc[]
+
+include::slides/jooq_and_async.adoc[]
+
+include::slides/questions.adoc[]

@@ -1,0 +1,17 @@
+== Selects Continued
+
+[source,java]
+----
+Drink furious = create.selectFrom(DRINK)
+.where(DRINK.NAME.eq('Furious'))
+.fetchOneInto(DRINK)
+
+Drink furious = create.selectFrom(DRINK)
+.where(DRINK.NAME.equalIgnoreCase('FurIOUS'))
+.fetchOneInto(DRINK)
+
+List<Drink> ipas = create.selectFrom(DRINK)
+.where(DRINK.NAME.in(['Furious', 'Two Hearted']))
+.fetchInto(DRINK)
+----
+

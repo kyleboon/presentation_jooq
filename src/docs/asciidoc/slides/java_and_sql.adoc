@@ -1,0 +1,11 @@
+== SQL and Java
+
+* JDBC
+* OpenJPA
+* MyBatis
+* Hibernate
+* JDBQ
+* JOOQ
+
+We're ignoring all non-sql technologies like MongoDB or Cassandra.
+

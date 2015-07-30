@@ -1,0 +1,13 @@
+== Joins Continued
+
+[source,java]
+----
+create.select(DRINK.NAME, 
+	ORGANIZATION.NAME.as('organizationName'), 
+    STYLE.NAME.as('styleName'))
+.from(DRINK)
+.join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+.leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+.fetch()
+----
+

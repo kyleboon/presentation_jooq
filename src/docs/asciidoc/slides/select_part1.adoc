@@ -1,0 +1,11 @@
+== Simple Select
+
+[source,java]
+----
+List<Drink> drinks = create.selectFrom(DRINK).fetchInto(Drink)
+----
+
+* create is an instance of the DSLContext, a core jOOQ class
+* DRINK is a static reference to table. Code Generation
+* Drink is a pojo holding the data.
+

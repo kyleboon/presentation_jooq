@@ -1,0 +1,10 @@
+== Who Makes It?
+
+https://twitter.com/lukaseder[Lukas Eder] is the founder and CEO of Data Geekery. He's the creator and maintainer of jOOQ. 
+
+* Frequent http://www.quora.com/Lukas-Eder[Quora] Answerer 
+* Blog In Response to http://blog.jooq.org/2015/01/21/open-source-doesnt-need-more-support-it-needs-better-business-models/[Pivotal Dropping Groovy]
+* Stack Overflow http://stackoverflow.com/users/521799/lukas-eder[too]
+
+If you ask a question on the internet about java and sql, he will find it. 
+

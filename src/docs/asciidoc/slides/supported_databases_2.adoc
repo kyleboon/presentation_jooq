@@ -1,0 +1,17 @@
+== Supported with License
+
+* Microsoft Access 2013 
+* Oracle 11g (All editions)
+* SQL Server 2008 (All editions)
+
+* Amazon Redshift
+* SQL Azure
+
+* DB2 9.7
+* HANA (All editions)
+* Informix 12.10
+* Ingres 10.1
+* Sybase ASE 15.5
+* Sybase SQL Anywhere 12
+* Vertica 7.1
+

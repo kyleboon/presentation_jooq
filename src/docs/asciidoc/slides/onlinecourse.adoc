@@ -1,0 +1,4 @@
+== JavaCodeGeeks Academy Course
+
+https://github.com/etiennestuder/gradle-jooq-plugin
+

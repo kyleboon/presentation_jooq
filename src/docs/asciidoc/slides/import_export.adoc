@@ -1,0 +1,14 @@
+== Importing/Exporting Data
+
+[source,java]
+----
+String csv = create.selectFrom(DRINK).fetch().formatCSV()
+String xml = create.selectFrom(DRINK).fetch().formatXML()
+String json = create.selectFrom(DRINK).fetch().formatJSON()
+
+create.loadInto(DRINK)
+      .loadCSV(inputstream, encoding)
+      .fields(DRINK.ID, DRINK.NAME)
+      .execute()
+----
+

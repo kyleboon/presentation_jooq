@@ -1,0 +1,8 @@
+== Advantages Over Straight JDBC
+
+jOOQ is built on top of JDBC.
+
+* Type safety
+* Compile Time errors vs Run Time errors
+* Auto completion in IDE helps you to remember the schema
+

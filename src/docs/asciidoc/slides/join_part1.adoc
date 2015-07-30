@@ -1,0 +1,11 @@
+== Joins
+
+[source,java]
+----
+List<Drink> ipas = create.select(DRINK.fields())
+.from(DRINK)
+.join(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+.where(STYLE.NAME.eq('IPA'))
+.fetchInto(Drink)
+----
+

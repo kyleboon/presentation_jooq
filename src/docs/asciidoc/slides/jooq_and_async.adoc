@@ -1,0 +1,12 @@
+== jOOQ and Non Blocking, Asynchronous Frameworks
+
+ORMs make it difficult to understand when blocking operations happen. 
+
+[source,java]
+----
+Book b = Book.get(1)
+book.author
+----
+
+With jOOQ, you are forced to understand the database on a deeper level. Less abstraction makes it easier to use correctly with Ratpack or Grails in an async manner.
+

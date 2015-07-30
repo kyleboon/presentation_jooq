@@ -1,0 +1,21 @@
+== Counts
+
+[source,java]
+----
+Field<Integer> organizations = create.selectCount()
+    .from(ORGANIZATION)
+    .asField('organizations')
+Field<Integer> drinks = create.selectCount()
+    .from(DRINK)
+    .asField('drinks')
+Field<Integer> cellars = create.selectCount()
+    .from(CELLAR)
+    .asField('cellars')
+Field<Integer> cellaredDrinks = create.select(DSL.sum(CELLARED_DRINK.QUANTITY))
+    .from(CELLARED_DRINK)
+    .asField('cellaredDrinks')
+
+create.select(organizations, drinks, cellars, cellaredDrinks)
+    .fetchInto(HomepageStatistics)
+----
+

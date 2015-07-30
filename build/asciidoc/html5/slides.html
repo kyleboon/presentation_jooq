@@ -1,0 +1,200 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="author" content="Embrace SQL again"><title>Introduction to JOOQ</title><meta content="yes" name="apple-mobile-web-app-capable"><meta content="black-translucent" name="apple-mobile-web-app-status-bar-style"><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui" name="viewport"><link href="reveal.js/css/reveal.css" rel="stylesheet"><link rel="stylesheet" href="reveal.js/css/theme/white.css" id="theme"><link href="reveal.js/lib/css/zenburn.css" rel="stylesheet"><script type="text/javascript">document.write( '<link rel="stylesheet" href="reveal.js/css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );</script></head><body><div class="reveal"><div class="slides"><section><h2>Introduction to JOOQ</h2><p><small>Embrace SQL again</small></p></section><section id="_who_am_i"><h2>Who am I?</h2><div class="paragraph"><p>Kyle Boon</p></div>
+<div class="paragraph"><p><a href="mailto:kyle.f.boon@gmail.com">kyle.f.boon@gmail.com</a></p></div>
+<div class="paragraph"><p>@kyleboon</p></div>
+<div class="paragraph"><p>Senior Software Engineer @ SmartThings</p></div>
+<div class="paragraph"><p>Co-owner and maintainer of CellarHQ.</p></div></section>
+<section id="_what_is_jooq"><h2>What is jOOQ</h2><div class="paragraph"><p>java Object Oriented Querying</p></div>
+<div class="paragraph"><p>Alternative to ORMs or JDBC and Strings.</p></div></section>
+<section id="_features"><h2>Features</h2><div class="ulist"><ul><li><p>Code Generation</p></li><li><p>Type Safe SQL</p></li><li><p>Supports all SQL features as well as vendor specific features</p></li><li><p>Supports stored procedures natively</p></li><li><p>Open Source and free for open source databases</p></li><li><p>Does not manage transactions for you</p></li></ul></div></section>
+<section id="_supported_for_free"><h2>Supported for Free</h2><div class="ulist"><ul><li><p>CUBRID 8.4</p></li><li><p>Derby 10.10</p></li><li><p>Firebird 2.5</p></li><li><p>H2 1.3</p></li><li><p>HSQLDB 2.2</p></li><li><p>MariaDB 5.2</p></li><li><p>MySQL 5.5</p></li><li><p>PostgreSQL 9.0</p></li><li><p>SQLite</p></li></ul></div></section>
+<section id="_supported_with_license"><h2>Supported with License</h2><div class="ulist"><ul><li><p>Microsoft Access 2013</p></li><li><p>Oracle 11g (All editions)</p></li><li><p>SQL Server 2008 (All editions)</p></li><li><p>Amazon Redshift</p></li><li><p>SQL Azure</p></li><li><p>DB2 9.7</p></li><li><p>HANA (All editions)</p></li><li><p>Informix 12.10</p></li><li><p>Ingres 10.1</p></li><li><p>Sybase ASE 15.5</p></li><li><p>Sybase SQL Anywhere 12</p></li><li><p>Vertica 7.1</p></li></ul></div></section>
+<section id="_who_makes_it"><h2>Who Makes It?</h2><div class="paragraph"><p><a href="https://twitter.com/lukaseder">Lukas Eder</a> is the founder and CEO of Data Geekery. He&#8217;s the creator and maintainer of jOOQ.</p></div>
+<div class="ulist"><ul><li><p>Frequent <a href="http://www.quora.com/Lukas-Eder">Quora</a> Answerer</p></li><li><p>Blog In Response to <a href="http://blog.jooq.org/2015/01/21/open-source-doesnt-need-more-support-it-needs-better-business-models/">Pivotal Dropping Groovy</a></p></li><li><p>Stack Overflow <a href="http://stackoverflow.com/users/521799/lukas-eder">too</a></p></li></ul></div>
+<div class="paragraph"><p>If you ask a question on the internet about java and sql, he will find it.</p></div></section>
+<section id="_simple_select"><h2>Simple Select</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">List&lt;Drink&gt; drinks = create.selectFrom(DRINK).fetchInto(Drink)</code></pre></div></div>
+<div class="ulist"><ul><li><p>create is an instance of the DSLContext, a core jOOQ class</p></li><li><p>DRINK is a static reference to table. Code Generation</p></li><li><p>Drink is a pojo holding the data.</p></li></ul></div></section>
+<section id="_selects_continued"><h2>Selects Continued</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">List&lt;String&gt; names = create.select(DRINK.NAME)
+.from(DRINK).fetchInto(String)</code></pre></div></div></section>
+<section id="_selects_continued_2"><h2>Selects Continued</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">Drink furious = create.selectFrom(DRINK)
+.where(DRINK.NAME.eq('Furious'))
+.fetchOneInto(DRINK)
+
+Drink furious = create.selectFrom(DRINK)
+.where(DRINK.NAME.equalIgnoreCase('FurIOUS'))
+.fetchOneInto(DRINK)
+
+List&lt;Drink&gt; ipas = create.selectFrom(DRINK)
+.where(DRINK.NAME.in(['Furious', 'Two Hearted']))
+.fetchInto(DRINK)</code></pre></div></div></section>
+<section id="_joins"><h2>Joins</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">List&lt;Drink&gt; ipas = create.select(DRINK.fields())
+.from(DRINK)
+.join(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+.where(STYLE.NAME.eq('IPA'))
+.fetchInto(Drink)</code></pre></div></div></section>
+<section id="_joins_continued"><h2>Joins Continued</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">create.select(DRINK.NAME,
+	ORGANIZATION.NAME.as('organizationName'),
+    STYLE.NAME.as('styleName'))
+.from(DRINK)
+.join(ORGANIZATION).onKey(Keys.DRINK__FK_DRINK_ORGANIZATION_ID)
+.leftOuterJoin(STYLE).onKey(Keys.DRINK__FK_DRINK_STYLE_ID)
+.fetch()</code></pre></div></div></section>
+<section id="_counts"><h2>Counts</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">Field&lt;Integer&gt; organizations = create.selectCount()
+    .from(ORGANIZATION)
+    .asField('organizations')
+Field&lt;Integer&gt; drinks = create.selectCount()
+    .from(DRINK)
+    .asField('drinks')
+Field&lt;Integer&gt; cellars = create.selectCount()
+    .from(CELLAR)
+    .asField('cellars')
+Field&lt;Integer&gt; cellaredDrinks = create.select(DSL.sum(CELLARED_DRINK.QUANTITY))
+    .from(CELLARED_DRINK)
+    .asField('cellaredDrinks')
+
+create.select(organizations, drinks, cellars, cellaredDrinks)
+    .fetchInto(HomepageStatistics)</code></pre></div></div></section>
+<section id="_inserts_and_updates"><h2>Inserts and Updates</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">Record&lt;?&gt; record =
+	create.insertInto(DRINK, DRINK.NAME)
+                                .values("Kyle's Beer")
+                                .returning(DRINK.ID)
+                                .fetchOne()
+
+create.update(DRINK)
+      .set(DRINK.NAME, "Kyle's New Name")
+      .where(DRINK.NAME.equal(Kyle's Beer))
+      .execute();</code></pre></div></div></section>
+<section id="_deleting"><h2>Deleting</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">create.delete(DRINK)
+      .where(DRINK.ID.equal(100))
+      .execute()</code></pre></div></div></section>
+<section id="_active_record_pattern"><h2>Active Record Pattern</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">DrinkRecord drinkRecord = create.newRecord(DRINK, drink)
+    drinkRecord.reset(DRINK.DATA)
+    drinkRecord.reset(DRINK.CREATED_DATE)
+    drinkRecord.reset(DRINK.MODIFIED_DATE)
+
+    if (drinkRecord.id) {
+        drinkRecord.update()
+    } else {
+        drinkRecord.reset(DRINK.ID)
+        drinkRecord.store()
+    }
+
+    drinkRecord.into(Drink)</code></pre></div></div></section>
+<section id="_importing_exporting_data"><h2>Importing/Exporting Data</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">String csv = create.selectFrom(DRINK).fetch().formatCSV()
+String xml = create.selectFrom(DRINK).fetch().formatXML()
+String json = create.selectFrom(DRINK).fetch().formatJSON()
+
+create.loadInto(DRINK)
+      .loadCSV(inputstream, encoding)
+      .fields(DRINK.ID, DRINK.NAME)
+      .execute()</code></pre></div></div></section>
+<section id="_so_much_more"><h2>So Much More</h2><div class="paragraph"><p>The documentation is the best place to see examples; this presentation would be (even
+more) boring if I covered every aspect of SQL Generation and Execution</p></div></section>
+<section id="_code_generation"><h2>Code Generation</h2><div class="ulist"><ul><li><p>tables</p></li><li><p>records</p></li><li><p>POJOs</p></li><li><p>Interfaces</p></li><li><p>DAOs</p></li><li><p>sequences</p></li><li><p>procedures</p></li><li><p>UDTs</p></li></ul></div></section>
+<section id="_code_gen_example"><h2>Code Gen Example</h2><div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">/**
+* The singleton instance of &lt;code&gt;public.drink&lt;/code&gt;
+*/
+public static final com.cellarhq.generated.tables.Drink DRINK = new com.cellarhq.generated.tables.Drink();
+
+/**
+* The class holding records for this type
+*/
+@Override
+public java.lang.Class&lt;com.cellarhq.generated.tables.records.DrinkRecord&gt; getRecordType() {
+	return com.cellarhq.generated.tables.records.DrinkRecord.class;
+}
+
+/**
+ * The column &lt;code&gt;public.drink.id&lt;/code&gt;.
+ */
+public final org.jooq.TableField&lt;com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Long&gt; ID = createField("id", org.jooq.impl.SQLDataType.BIGINT.nullable(false).defaulted(true), this, "");
+
+/**
+ * The column &lt;code&gt;public.drink.version&lt;/code&gt;.
+ */
+public final org.jooq.TableField&lt;com.cellarhq.generated.tables.records.DrinkRecord, java.lang.Integer&gt; VERSION = createField("version", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaulted(true), this, "");</code></pre></div></div></section>
+<section id="_gradle_plugin"><h2>Gradle Plugin</h2><div class="paragraph"><p><a href="https://github.com/etiennestuder/gradle-jooq-plugin">Gradle Plugin</a> can run code generation at compile time. Easy to configure and fully participates in gradle up-to-date checking.</p></div></section>
+<section id="_advantages_over_straight_jdbc"><h2>Advantages Over Straight JDBC</h2><div class="paragraph"><p>jOOQ is built on top of JDBC.</p></div>
+<div class="ulist"><ul><li><p>Type safety</p></li><li><p>Compile Time errors vs Run Time errors</p></li><li><p>Auto completion in IDE helps you to remember the schema</p></li></ul></div></section>
+<section id="_advantages_over_hibernate"><h2>Advantages Over Hibernate</h2><div class="ulist"><ul><li><p>Lower level of abstraction</p></li><li><p>SQL &gt; HQL</p></li><li><p>'Object relational impendence mismatch'</p></li><li><p><a href="http://www.hibernate-alternative.com/" class="bare">http://www.hibernate-alternative.com/</a></p></li></ul></div></section>
+<section id="_jooq_and_non_blocking_asynchronous_frameworks"><h2>jOOQ and Non Blocking, Asynchronous Frameworks</h2><div class="paragraph"><p>ORMs make it difficult to understand when blocking operations happen.</p></div>
+<div class="listingblock"><div class="content"><pre class="highlight"><code class="java language-java">Book b = Book.get(1)
+book.author</code></pre></div></div>
+<div class="paragraph"><p>With jOOQ, you are forced to understand the database on a deeper level. Less abstraction makes it easier to use correctly with Ratpack or Grails in an async manner.</p></div></section>
+<section id="_what_about_mongodb"><h2>What about MongoDB?</h2></section></div></div><script src="reveal.js/lib/js/head.min.js"></script><script src="reveal.js/js/reveal.js"></script><script type="text/javascript">// See https://github.com/hakimel/reveal.js#configuration for a full list of configuration options
+Reveal.initialize({
+  // Display controls in the bottom right corner
+  controls: true,
+  // Display a presentation progress bar
+  progress: true,
+  // Display the page number of the current slide
+  slideNumber: false,
+  // Push each slide change to the browser history
+  history: false,
+  // Enable keyboard shortcuts for navigation
+  keyboard: true,
+  // Enable the slide overview mode
+  overview: true,
+  // Vertical centering of slides
+  center: true,
+  // Enables touch navigation on devices with touch input
+  touch: true,
+  // Loop the presentation
+  loop: false,
+  // Change the presentation direction to be RTL
+  rtl: false,
+  // Turns fragments on and off globally
+  fragments: true,
+  // Flags if the presentation is running in an embedded mode,
+  // i.e. contained within a limited portion of the screen
+  embedded: false,
+  // Number of milliseconds between automatically proceeding to the
+  // next slide, disabled when set to 0, this value can be overwritten
+  // by using a data-autoslide attribute on your slides
+  autoSlide: 0,
+  // Stop auto-sliding after user input
+  autoSlideStoppable: true,
+  // Enable slide navigation via mouse wheel
+  mouseWheel: false,
+  // Hides the address bar on mobile devices
+  hideAddressBar: true,
+  // Opens links in an iframe preview overlay
+  previewLinks: false,
+  // Theme (e.g., beige, black, league, night, serif, simple, sky, solarized, white)
+  // NOTE setting the theme in the config no longer works in reveal.js 3.x
+  //theme: Reveal.getQueryHash().theme || 'white',
+  // Transition style (e.g., none, fade, slide, convex, concave, zoom)
+  transition: Reveal.getQueryHash().transition || 'slide',
+  // Transition speed (e.g., default, fast, slow)
+  transitionSpeed: 'default',
+  // Transition style for full page slide backgrounds (e.g., none, fade, slide, convex, concave, zoom)
+  backgroundTransition: 'fade',
+  // Number of slides away from the current that are visible
+  viewDistance: 3,
+  // Parallax background image (e.g., "'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg'")
+  parallaxBackgroundImage: '',
+  // Parallax background size in CSS syntax (e.g., "2100px 900px")
+  parallaxBackgroundSize: '',
+
+  // The "normal" size of the presentation, aspect ratio will be preserved
+  // when the presentation is scaled to fit different resolutions. Can be
+  // specified using percentage units.
+  width: 960,
+  height: 700,
+
+  // Factor of the display size that should remain empty around the content
+  margin: 0.1,
+
+  // Bounds for smallest/largest possible scale to apply to content
+  minScale: 0.2,
+  maxScale: 1.5,
+
+  // Optional libraries used to extend on reveal.js
+  dependencies: [
+      { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      { src: 'reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+      { src: 'reveal.js/plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+      { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+  ]
+});</script></body></html>

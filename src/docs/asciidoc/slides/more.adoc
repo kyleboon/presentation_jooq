@@ -1,0 +1,5 @@
+== So Much More
+
+The documentation is the best place to see examples; this presentation would be (even
+more) boring if I covered every aspect of SQL Generation and Execution
+

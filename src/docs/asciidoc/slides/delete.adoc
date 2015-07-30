@@ -1,0 +1,9 @@
+== Deleting
+
+[source,java]
+----
+create.delete(DRINK)
+      .where(DRINK.ID.equal(100))
+      .execute()
+----
+

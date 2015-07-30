@@ -1,0 +1,9 @@
+== Features
+
+* Code Generation
+* Type Safe SQL
+* Supports all SQL features as well as vendor specific features
+* Supports stored procedures natively
+* Open Source and free for open source databases
+* Does not manage transactions for you
+

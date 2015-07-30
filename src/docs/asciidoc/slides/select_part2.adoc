@@ -1,0 +1,8 @@
+== Selects Continued
+
+[source,java]
+----
+List<String> names = create.select(DRINK.NAME)
+.from(DRINK).fetchInto(String)
+----
+

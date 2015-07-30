@@ -1,0 +1,6 @@
+== What is jOOQ
+
+java Object Oriented Querying
+
+Alternative to ORMs or JDBC and Strings.
+

@@ -1,0 +1,4 @@
+== Gradle Plugin
+
+https://github.com/etiennestuder/gradle-jooq-plugin[Gradle Plugin] can run code generation at compile time. Easy to configure and fully participates in gradle up-to-date checking. 
+

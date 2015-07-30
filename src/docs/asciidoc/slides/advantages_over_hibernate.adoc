@@ -1,0 +1,8 @@
+== Advantages Over Hibernate
+
+* Lower level of abstraction
+* SQL > HQL
+* 'Object relational impendence mismatch'
+* http://www.hibernate-alternative.com/
+
+
