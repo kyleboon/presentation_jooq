@@ -2,3 +2,60 @@
 
 https://github.com/etiennestuder/gradle-jooq-plugin[Gradle Plugin] can run code generation at compile time. Easy to configure and fully participates in gradle up-to-date checking. 
 
+[source,java]
+----
+jooq {
+  cellarhq(sourceSets.main) {
+    jdbc {
+      driver = 'org.postgresql.Driver'
+      url = 'jdbc:postgresql://localhost:15432/cellarhq'
+      user = 'cellarhq'
+      password = 'cellarhq'
+      schema = 'public'
+    }
+    generator {
+      name = 'org.jooq.util.DefaultGenerator'
+      strategy {
+        name = 'org.jooq.util.DefaultGeneratorStrategy'
+      }
+      database {
+        name = 'org.jooq.util.postgres.PostgresDatabase'
+        inputSchema = 'public'
+        customTypes {
+          customType {
+            name = "LocalDate"
+            type = "java.time.LocalDate"
+            converter = "com.cellarhq.jooq.LocalDateConverter"
+          }
+          customType {
+            name = "LocalDateTie"
+            type = "java.time.LocalDateTime"
+            converter = "com.cellarhq.jooq.LocalDateTimeConverter"
+          }
+          forcedTypes {
+            forcedType {
+              name = "LocalDate"
+              types = "date"
+              expression = ".*"
+            }
+            forcedType {
+              name = "LocalDateTime"
+              types = "timestamp"
+              expression = ".*"
+            }
+          }
+
+        }
+      }
+      generate {
+        pojos = true
+        jpaAnnotations = true
+
+      }
+      target {
+        packageName = 'com.cellarhq.generated'
+      }
+    }
+  }
+----
+
